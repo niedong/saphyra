@@ -4861,6 +4861,8 @@ class HTTPThread(threading.Thread):
 
     # http request
     def httpcall(self):
+        from datetime import datetime
+
         param_joiner = '&' if self.url.count('?') > 0 else '?'
 
         request = urllib.request.Request(
@@ -4876,9 +4878,9 @@ class HTTPThread(threading.Thread):
         try:
             with urllib.request.urlopen(request) as f:
                 pass
-            print('sended', f.status)
+            print(datetime.now(), 'sended', f.status)
         except Exception as e:
-            print('ignore exception: {}'.format(e))
+            print(datetime.now(), 'ignore exception: {}'.format(e))
 
     def run(self):
         self.httpcall()

